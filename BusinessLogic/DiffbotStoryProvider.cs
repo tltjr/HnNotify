@@ -14,8 +14,12 @@ namespace BusinessLogic
 
         public DiffbotStoryProvider(string proxy, int port, string diffbottoken)
         {
-            //var webproxy = new WebProxy(proxy, port);
-            //_diffbot = new Diffbot(diffbottoken, webproxy);
+            var webproxy = new WebProxy(proxy, port);
+            _diffbot = new Diffbot(diffbottoken, webproxy);
+        }
+
+        public DiffbotStoryProvider(string diffbottoken)
+        {
             _diffbot = new Diffbot(diffbottoken);
         }
 
