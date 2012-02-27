@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Linq;
 using System.Net;
+using System.IO;
 using DiffbotApi;
 using Growl.Connector;
 
@@ -20,11 +21,13 @@ namespace HnNotify
         static void Main()
         {
             _growl = new GrowlConnector();
-            var application = new Application(ApplicationName) {Icon = @"T:\ycombinator-logo.gif"};
+            var icon = Path.Combine(Directory.GetCurrentDirectory(), @"img\ycombinator-logo.gif");
+            var application = new Application(ApplicationName) {Icon = icon};
             var newStory = new NotificationType(NotificationTypeName, "New Story");
             _growl.Register(application, new[] {newStory});
-            var proxy = new WebProxy(ConfigurationManager.AppSettings["proxy"], int.Parse(ConfigurationManager.AppSettings["port"]));
-            _diffbot = new Diffbot(ConfigurationManager.AppSettings["diffbottoken"], proxy);
+            //var proxy = new WebProxy(ConfigurationManager.AppSettings["proxy"], int.Parse(ConfigurationManager.AppSettings["port"]));
+            //_diffbot = new Diffbot(ConfigurationManager.AppSettings["diffbottoken"], proxy);
+            _diffbot = new Diffbot(ConfigurationManager.AppSettings["diffbottoken"]);
             //make initial check
             CheckStories();
             var updateTime = DateTime.Now.AddMinutes(Interval);
