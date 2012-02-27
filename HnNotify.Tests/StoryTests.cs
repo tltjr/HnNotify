@@ -33,7 +33,7 @@ namespace HnNotify.Tests
         {
             var set = new OrderedSet<Story>();
             var story = new Story(new FrontpageItem { Title = "title", Link = "blah", Description = "shouldnt matter" }) { DisplayTime = DateTime.Now};
-            var story2 = new Story(new FrontpageItem { Title = "title", Link = "blah", Description = "diff but irrelevant" }) {DisplayTime = DateTime.MinValue};
+            var story2 = new Story(new FrontpageItem { Title = "title2", Link = "blah", Description = "diff but irrelevant" }) {DisplayTime = DateTime.MinValue};
             set.Add(story);
             set.Add(story2);
             set.RemoveLast();
@@ -42,11 +42,11 @@ namespace HnNotify.Tests
         }
 
         [Test]
-        public void OrderedSetTestTwo()
+        public void OrderedSetOrder()
         {
             var set = new OrderedSet<Story>();
             var story = new Story(new FrontpageItem { Title = "title", Link = "blah", Description = "shouldnt matter" }) { DisplayTime = DateTime.Now};
-            var story2 = new Story(new FrontpageItem { Title = "title", Link = "blah", Description = "diff but irrelevant" }) {DisplayTime = DateTime.MinValue};
+            var story2 = new Story(new FrontpageItem { Title = "title2", Link = "blah", Description = "diff but irrelevant" }) {DisplayTime = DateTime.MinValue};
             // reverse order
             set.Add(story2);
             set.Add(story);

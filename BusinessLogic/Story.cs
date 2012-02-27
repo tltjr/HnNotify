@@ -15,7 +15,9 @@ namespace BusinessLogic
 
         public int CompareTo(Story other)
         {
-            if (DisplayTime.Equals(other.DisplayTime)) return 0;
+            var fpi = other.Item;
+            if (Item.Title.Equals(fpi.Title) 
+                && Item.Link.Equals(fpi.Link)) return 0;
             return DisplayTime > other.DisplayTime ? 1 : -1;
         }
 
