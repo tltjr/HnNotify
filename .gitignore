@@ -1,0 +1,32 @@
+# ReSharper meta directory
+_ReSharper*
+
+# ReSharper user settings
+*.ReSharper.user
+
+# bin directories
+[Bb]in/
+
+# obj directories
+[Oo]bj/
+
+# vim swap files
+*.swp
+
+# damn suo file
+*.suo
+
+#NuGet
+packages/
+
+*.user
+
+*.cache
+
+_UpgradeReport_Files/
+
+*.vdproj
+
+*.dotcover
+
+app.config
