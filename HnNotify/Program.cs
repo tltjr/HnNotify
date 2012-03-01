@@ -43,9 +43,11 @@ namespace HnNotify
             if (topFive.Equals(_currentStories)) return;
             var newest = topFive.Difference(_currentStories).ToList();
             _currentStories = new TopStories(frontpage, NumberOfStories);
-            foreach (var notification in newest.Select(story => new Notification(ApplicationName, NotificationTypeName, "ID", story.Title, story.Link)))
+            foreach (var story in newest)
             {
-                _growl.Notify(notification);
+                var notification = new Notification(ApplicationName, NotificationTypeName, "ID", story.Title, story.Link);
+                var callback = new CallbackContext(story.Link);
+                _growl.Notify(notification, callback);
             }
         }
     }
