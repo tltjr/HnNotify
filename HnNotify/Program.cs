@@ -1,34 +1,27 @@
 ﻿using System;
 using System.Configuration;
-using System.Linq;
-using System.Net;
-using System.IO;
-using DiffbotApi;
-using Growl.Connector;
+using BusinessLogic;
+using Notifications;
 
 namespace HnNotify
 {
     class Program
     {
-        const string ApplicationName = "HnNotify";
-        const string NotificationTypeName = "NewStory";
-        static GrowlConnector _growl;
-        static Diffbot _diffbot;
-        static TopStories _currentStories;
         const int Interval = 5;
-        const int NumberOfStories = 10;
+        private static INotificationReceiver _notificationReceiver;
+        private static IStoryProvider _storyProvider;
 
+        // potentially use autofac to configure the correct notify/story providers
         static void Main()
         {
-            _growl = new GrowlConnector();
-            var icon = Path.Combine(Directory.GetCurrentDirectory(), @"img\ycombinator-logo.gif");
-            var application = new Application(ApplicationName) {Icon = icon};
-            var newStory = new NotificationType(NotificationTypeName, "New Story");
-            _growl.Register(application, new[] {newStory});
-            //var proxy = new WebProxy(ConfigurationManager.AppSettings["proxy"], int.Parse(ConfigurationManager.AppSettings["port"]));
-            //_diffbot = new Diffbot(ConfigurationManager.AppSettings["diffbottoken"], proxy);
-            _diffbot = new Diffbot(ConfigurationManager.AppSettings["diffbottoken"]);
-            //make initial check
+            _notificationReceiver = new GrowlNotification();
+
+            // extract configuration logic and validate
+            var proxy = ConfigurationManager.AppSettings["proxy"];
+            var port = int.Parse(ConfigurationManager.AppSettings["port"]);
+            var diffbottoken = ConfigurationManager.AppSettings["diffbottoken"];
+
+            _storyProvider = new DiffbotStoryProvider(proxy, port, diffbottoken) { NumberOfStories = 10 };
             CheckStories();
             var updateTime = DateTime.Now.AddMinutes(Interval);
             while(true)
@@ -41,16 +34,10 @@ namespace HnNotify
 
         static void CheckStories()
         {
-            var frontpage = _diffbot.Frontpage(@"http://news.ycombinator.com/");
-            var topFive = new TopStories(frontpage, NumberOfStories);
-            if (topFive.Equals(_currentStories)) return;
-            var newest = topFive.Difference(_currentStories).ToList();
-            _currentStories = new TopStories(frontpage, NumberOfStories);
-            foreach (var story in newest)
+            var newStories = _storyProvider.GetNewStories();
+            foreach (var story in newStories)
             {
-                var notification = new Notification(ApplicationName, NotificationTypeName, "ID", story.Title, story.Link);
-                var callback = new CallbackContext(story.Link);
-                _growl.Notify(notification, callback);
+                _notificationReceiver.Notify(story);
             }
         }
     }

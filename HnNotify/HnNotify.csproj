@@ -38,22 +38,12 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Growl.Connector, Version=2.0.0.0, Culture=neutral, PublicKeyToken=980c2339411be384, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\Growl.Connector.dll</HintPath>
-    </Reference>
-    <Reference Include="Growl.CoreLibrary, Version=2.0.0.0, Culture=neutral, PublicKeyToken=13e59d82e007b064, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\Growl.CoreLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -61,32 +51,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DiffBotApi\Article.cs" />
-    <Compile Include="DiffBotApi\Comments.cs" />
-    <Compile Include="DiffBotApi\Diffbot.cs" />
-    <Compile Include="DiffBotApi\Frontpage.cs" />
-    <Compile Include="DiffBotApi\FrontpageInfo.cs" />
-    <Compile Include="DiffBotApi\FrontpageItem.cs" />
-    <Compile Include="DiffBotApi\JsonClassHelper.cs" />
-    <Compile Include="DiffBotApi\Media.cs" />
-    <Compile Include="DiffBotApi\Medium.cs" />
-    <Compile Include="DiffBotApi\Stats.cs" />
-    <Compile Include="EnumerableFrontpageExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TopStories.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="img\ycombinator-logo.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib\Growl.Connector.dll" />
-    <Content Include="lib\Growl.CoreLibrary.dll" />
-    <Content Include="lib\license.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj">
+      <Project>{02577504-388C-48B7-9DA8-67CE3E37DC52}</Project>
+      <Name>BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Notifications\Notifications.csproj">
+      <Project>{F0EF248D-E738-43EA-A9C5-C2F0B3A2BFAE}</Project>
+      <Name>Notifications</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
