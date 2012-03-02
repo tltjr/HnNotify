@@ -1,14 +1,22 @@
-﻿using DiffbotApi;
+﻿using System;
+using DiffbotApi;
 
 namespace BusinessLogic
 {
-    public class Story
+    public class Story : IComparable<Story>
     {
         public FrontpageItem Item { get; set; }
+        public DateTime DisplayTime { get; set; }
 
         public Story(FrontpageItem item)
         {
             Item = item;
+        }
+
+        public int CompareTo(Story other)
+        {
+            if (DisplayTime.Equals(other.DisplayTime)) return 0;
+            return DisplayTime > other.DisplayTime ? 1 : -1;
         }
 
         public override bool Equals(object obj)

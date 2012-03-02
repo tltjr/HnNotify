@@ -59,6 +59,7 @@
     <Compile Include="DiffBotApi\Stats.cs" />
     <Compile Include="DiffbotStoryProvider.cs" />
     <Compile Include="IStoryProvider.cs" />
+    <Compile Include="OrderedSetExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Story.cs" />
   </ItemGroup>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using DiffbotApi;
@@ -9,7 +10,7 @@ namespace BusinessLogic
     public class DiffbotStoryProvider : IStoryProvider
     {
         private readonly Diffbot _diffbot;
-        private readonly Set<Story> _viewedStories = new Set<Story>();
+        private readonly OrderedSet<Story> _viewedStories = new OrderedSet<Story>();
 
         public DiffbotStoryProvider(string proxy, int port, string diffbottoken)
         {
@@ -22,10 +23,15 @@ namespace BusinessLogic
         {
             var frontpage = _diffbot.Frontpage(@"http://news.ycombinator.com/");
             var frontpageItems = frontpage.Items.Take(NumberOfStories);
-            var topFive = new Set<Story>(frontpageItems.Select(o => new Story(o)));
+            var topFive = new OrderedSet<Story>(frontpageItems.Select(o => new Story(o)));
             if (topFive.IsSubsetOf(_viewedStories)) return Enumerable.Empty<Story>();
             var newStories = topFive.Difference(_viewedStories).ToList();
+            foreach(var story in newStories)
+            {
+                story.DisplayTime = DateTime.Now;
+            }
             _viewedStories.AddMany(newStories);
+            _viewedStories.Trim(100);
             return newStories;
         }
 
