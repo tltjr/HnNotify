@@ -47,7 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OrderedSetExtensionsTests.cs" />
+    <Compile Include="ListStoryExtensionsTest.cs" />
     <Compile Include="StoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

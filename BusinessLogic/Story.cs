@@ -1,34 +1,21 @@
-﻿using System;
-using DiffbotApi;
+﻿using DiffbotApi;
 
 namespace BusinessLogic
 {
-    public class Story : IComparable<Story>
+    public class Story
     {
         public FrontpageItem Item { get; set; }
-        public DateTime DisplayTime { get; set; }
 
         public Story(FrontpageItem item)
         {
             Item = item;
         }
 
-        public int CompareTo(Story other)
-        {
-            if (DisplayTime.Equals(other.DisplayTime)) return 0;
-            return DisplayTime > other.DisplayTime ? 1 : -1;
-        }
-
         public override bool Equals(object obj)
         {
-            var story = (Story)obj;
-            var fpi = story.Item;
-            return Item.Title.Equals(fpi.Title) || Item.Link.Equals(fpi.Link);
-        }
-
-        public override int GetHashCode()
-        {
-            return Item.Title.GetHashCode() + Item.Link.GetHashCode();
+            var story = obj as Story;
+            if (story == null) return false;
+            return Item.Title.Equals(story.Item.Title) || Item.Link.Equals(story.Item.Link);
         }
     }
 }

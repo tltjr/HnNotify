@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using BusinessLogic;
 using DiffbotApi;
 using NUnit.Framework;
@@ -19,12 +20,14 @@ namespace HnNotify.Tests
         }
 
         [Test]
-        public void ContainsStoryIrrelevantFieldsChanged()
+        public void ContainsStoryTwoAddsHaveDifferentTimes()
         {
             var set = new Set<Story>();
             var story = new Story(new FrontpageItem { Title = "title", Link = "blah", Description = "shouldnt matter" });
             var story2 = new Story(new FrontpageItem { Title = "title", Link = "blah", Description = "diff but irrelevant" });
             set.Add(story);
+            set.Add(story2);
+            Assert.True(set.Contains(story));
             Assert.True(set.Contains(story2));
         }
 
@@ -32,8 +35,8 @@ namespace HnNotify.Tests
         public void OrderedSetTest()
         {
             var set = new OrderedSet<Story>();
-            var story = new Story(new FrontpageItem { Title = "title", Link = "blah", Description = "shouldnt matter" }) { DisplayTime = DateTime.Now};
-            var story2 = new Story(new FrontpageItem { Title = "title", Link = "blah", Description = "diff but irrelevant" }) {DisplayTime = DateTime.MinValue};
+            var story = new Story(new FrontpageItem { Title = "title", Link = "blah", Description = "shouldnt matter" });
+            var story2 = new Story(new FrontpageItem { Title = "title", Link = "blah", Description = "diff but irrelevant" });
             set.Add(story);
             set.Add(story2);
             set.RemoveLast();
@@ -45,8 +48,8 @@ namespace HnNotify.Tests
         public void OrderedSetTestTwo()
         {
             var set = new OrderedSet<Story>();
-            var story = new Story(new FrontpageItem { Title = "title", Link = "blah", Description = "shouldnt matter" }) { DisplayTime = DateTime.Now};
-            var story2 = new Story(new FrontpageItem { Title = "title", Link = "blah", Description = "diff but irrelevant" }) {DisplayTime = DateTime.MinValue};
+            var story = new Story(new FrontpageItem { Title = "title", Link = "blah", Description = "shouldnt matter" });
+            var story2 = new Story(new FrontpageItem { Title = "title", Link = "blah", Description = "diff but irrelevant" });
             // reverse order
             set.Add(story2);
             set.Add(story);

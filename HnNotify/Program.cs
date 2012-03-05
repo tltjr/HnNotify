@@ -7,7 +7,7 @@ namespace HnNotify
 {
     class Program
     {
-        const int Interval = 5;
+        const int Interval = 1;
         private static INotificationReceiver _notificationReceiver;
         private static IStoryProvider _storyProvider;
 

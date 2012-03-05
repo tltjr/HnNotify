@@ -10,7 +10,7 @@ namespace BusinessLogic
     public class DiffbotStoryProvider : IStoryProvider
     {
         private readonly Diffbot _diffbot;
-        private readonly OrderedSet<Story> _viewedStories = new OrderedSet<Story>();
+        private readonly List<Story> _viewedStories = new List<Story>();
 
         public DiffbotStoryProvider(string proxy, int port, string diffbottoken)
         {
@@ -21,16 +21,23 @@ namespace BusinessLogic
 
         public IEnumerable<Story> GetNewStories()
         {
-            var frontpage = _diffbot.Frontpage(@"http://news.ycombinator.com/");
+            Frontpage frontpage;
+            try
+            {
+                frontpage = _diffbot.Frontpage(@"http://news.ycombinator.com/");
+            }
+            catch(WebException)
+            {
+                return Enumerable.Empty<Story>();
+            }
             var frontpageItems = frontpage.Items.Take(NumberOfStories);
-            var topFive = new OrderedSet<Story>(frontpageItems.Select(o => new Story(o)));
-            if (topFive.IsSubsetOf(_viewedStories)) return Enumerable.Empty<Story>();
-            var newStories = topFive.Difference(_viewedStories).ToList();
+            var stories = frontpageItems.Select(o => new Story(o)).ToList();
+            var newStories = stories.Difference(_viewedStories).ToList();
             foreach(var story in newStories)
             {
-                story.DisplayTime = DateTime.Now;
+                _viewedStories.Insert(0, story);
             }
-            _viewedStories.AddMany(newStories);
+            _viewedStories.AddRange(newStories);
             _viewedStories.Trim(100);
             return newStories;
         }
