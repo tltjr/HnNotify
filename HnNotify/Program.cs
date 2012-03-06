@@ -17,11 +17,12 @@ namespace HnNotify
             _notificationReceiver = new GrowlNotification();
 
             // extract configuration logic and validate
-            var proxy = ConfigurationManager.AppSettings["proxy"];
-            var port = int.Parse(ConfigurationManager.AppSettings["port"]);
             var diffbottoken = ConfigurationManager.AppSettings["diffbottoken"];
 
-            _storyProvider = new DiffbotStoryProvider(proxy, port, diffbottoken) { NumberOfStories = 10 };
+            //var proxy = ConfigurationManager.AppSettings["proxy"];
+            //var port = int.Parse(ConfigurationManager.AppSettings["port"]);
+            //_storyProvider = new DiffbotStoryProvider(proxy, port, diffbottoken) { NumberOfStories = 10 };
+            _storyProvider = new DiffbotStoryProvider(diffbottoken) { NumberOfStories = 10 };
             CheckStories();
             var updateTime = DateTime.Now.AddMinutes(Interval);
             while(true)

@@ -45,7 +45,7 @@ namespace HnNotify.Tests
         }
 
         [Test]
-        public void OrderedSetTestTwo()
+        public void OrderedSetOrder()
         {
             var set = new OrderedSet<Story>();
             var story = new Story(new FrontpageItem { Title = "title", Link = "blah", Description = "shouldnt matter" });
